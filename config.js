@@ -14,5 +14,7 @@ window.DN_CONFIG = {
   PHONE_RAW: '01020644352',
   PHONE_DISPLAY: '010-2064-4352',
   OFFICIAL_SITE: 'https://www.beautynest.ai',
+  PROPOSAL_FILE: 'files/proposal-bn/',  // ASSET_BASE 기준. 소개서 보기 페이지(상품설명서_뷰티네스트 260904 1~12쪽). tools/make_proposal.py --brand beautynest
+  OFFER_DEFAULT: '',                 // 'pdf'면 소개서 모드가 기본. 비우면 URL에 ?offer=pdf 가 있을 때만
   DEBUG: false                       // true면 콘솔에 트래킹 이벤트를 출력한다
 };
