@@ -4,6 +4,8 @@
 <meta name="robots" content="noindex, nofollow">
 <title>뷰티네스트 소개서</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<script src="../../../config.js"></script>
+<script src="../../js/track.js"></script>
 <style>
 :root { --bg: #0f1630; --fg: #f4f6fb; --muted: #b9c1d9; --brand: #3157f6; }
 * { box-sizing: border-box; }
@@ -14,13 +16,15 @@ h1 { margin: 0 0 10px; font-size: 22px; font-weight: 700; }
 main { max-width: 1100px; margin: 0 auto; padding: 4px 16px 8px; display: flex; flex-direction: column; gap: 12px; }
 main img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: 10px; background: #1b2445; }
 footer { max-width: 1100px; margin: 0 auto; padding: 16px 16px 40px; display: flex; flex-wrap: wrap; gap: 10px; }
-footer a { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 20px; border-radius: 999px; font-size: 16px; font-weight: 700; text-decoration: none; }
+footer a, header .home { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 20px; border-radius: 999px; font-size: 16px; font-weight: 700; text-decoration: none; }
 .call { background: #fff; color: var(--brand); }
 .kakao { background: #fee500; color: #191919; }
 .pdf { background: transparent; color: var(--muted); border: 1px solid rgba(255,255,255,.25); }
+.home { background: var(--brand); color: #fff; }
+header .home { margin-top: 12px; }
 </style></head>
 <body>
-<header><h1>뷰티네스트 소개서</h1><p class="note">소개서의 월 30만 원(VAT 별도)은 정가입니다. 2026년 12월 31일까지는 월 99,000원(VAT 포함)으로 이용하실 수 있습니다.</p></header>
+<header><h1>뷰티네스트 소개서</h1><p class="note">소개서의 월 30만 원(VAT 별도)은 정가입니다. 2026년 12월 31일까지는 월 99,000원(VAT 포함)으로 이용하실 수 있습니다.</p><a class="home" href="../../../" data-t="home" data-p="top">홈페이지에서 더 보기</a></header>
 <main>
 <img src="p01.jpg" width="1600" height="900" alt="뷰티네스트 소개서 1쪽">
 <img src="p02.jpg" width="1600" height="900" alt="뷰티네스트 소개서 2쪽">
@@ -36,9 +40,30 @@ footer a { display: inline-flex; align-items: center; justify-content: center; m
 <img src="p12.jpg" width="1600" height="900" alt="뷰티네스트 소개서 12쪽" loading="lazy">
 </main>
 <footer>
-<a class="call" href="tel:01020644352">010-2064-4352 전화하기</a>
-<a class="kakao" href="https://pf.kakao.com/_Dxidin/chat" target="_blank" rel="noopener">카카오톡으로 이어서 상담</a>
-<a class="pdf" href="../beautynest-proposal.pdf" target="_blank" rel="noopener">PDF로 받기</a>
+<a class="call" href="tel:01020644352" data-t="call">010-2064-4352 전화하기</a>
+<a class="kakao" href="https://pf.kakao.com/_Dxidin/chat" target="_blank" rel="noopener" data-t="kakao">카카오톡으로 이어서 상담</a>
+<a class="home" href="../../../" data-t="home" data-p="bottom">홈페이지에서 더 보기</a>
+<a class="pdf" href="../beautynest-proposal.pdf" target="_blank" rel="noopener" data-t="pdf">PDF로 받기</a>
 </footer>
 <script>if (/[?&]t=intro(&|$)/.test(location.search)) { document.title = '닥터네스트 소개서'; document.querySelector('h1').textContent = '닥터네스트 소개서'; }</script>
+<script>
+(function () {
+  function t(name, params) { if (window.dnTrack) window.dnTrack(name, params); }
+  var MAP = { call: ['phone_click', {}], kakao: ['kakao_click', {}], home: ['cta_click', { label: 'home' }], pdf: ['cta_click', { label: 'pdf' }] };
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[data-t]');
+    var m = a && MAP[a.getAttribute('data-t')];
+    if (m) t(m[0], Object.assign({ location: 'proposal', place: a.getAttribute('data-p') || 'bottom' }, m[1]));
+  });
+  if (!('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (x) {
+      if (!x.isIntersecting) return;
+      io.unobserve(x.target);
+      t('proposal_page', { page: Number(x.target.getAttribute('data-page')) });
+    });
+  }, { threshold: 0.6 });
+  document.querySelectorAll('main img').forEach(function (im, i) { im.setAttribute('data-page', i + 1); io.observe(im); });
+})();
+</script>
 </body></html>
